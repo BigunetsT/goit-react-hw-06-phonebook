@@ -11,7 +11,12 @@ const itemsReducer = createReducer(
     { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
   ],
   {
-    [actions.addContact]: (state, { payload }) => [...state, payload],
+    [actions.addContact]: (state, { payload }) =>
+      state
+        .map(item => item.name.toLocaleLowerCase())
+        .includes(payload.name.toLocaleLowerCase())
+        ? alert(`${payload.name} is already in contacts.`)
+        : [...state, payload],
     [actions.deleteContact]: (state, { payload }) =>
       state.filter(contact => contact.id !== payload),
   },
